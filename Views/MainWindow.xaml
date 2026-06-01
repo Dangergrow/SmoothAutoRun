@@ -1,0 +1,275 @@
+<Window x:Class="SmoothAutoRun.Views.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="SmoothAutoRun" Height="650" Width="900"
+        MinHeight="500" MinWidth="750"
+        Background="#1E1E2E"
+        WindowStartupLocation="CenterScreen"
+        WindowStyle="None"
+        AllowsTransparency="True"
+        ResizeMode="CanResizeWithGrip"
+        MouseDown="Window_MouseDown"
+        Loaded="Window_Loaded"
+        Closing="Window_Closing">
+
+    <Window.Resources>
+        <SolidColorBrush x:Key="AccentBrush" Color="#FF6B35"/>
+        <SolidColorBrush x:Key="SidebarBg" Color="#252536"/>
+        <SolidColorBrush x:Key="MainBg" Color="#1E1E2E"/>
+        <SolidColorBrush x:Key="CardBg" Color="#2A2A3E"/>
+        <SolidColorBrush x:Key="TextPrimary" Color="#CDD6F4"/>
+        <SolidColorBrush x:Key="TextSecondary" Color="#8B8BA0"/>
+        <SolidColorBrush x:Key="BorderColor" Color="#3A3A50"/>
+        <SolidColorBrush x:Key="InputBg" Color="#1A1A2E"/>
+
+        <Style x:Key="MenuButton" TargetType="Button">
+            <Setter Property="Background" Value="Transparent"/>
+            <Setter Property="Foreground" Value="{StaticResource TextSecondary}"/>
+            <Setter Property="Height" Value="44"/>
+            <Setter Property="Cursor" Value="Hand"/>
+            <Setter Property="FontSize" Value="13"/>
+            <Setter Property="HorizontalContentAlignment" Value="Left"/>
+            <Setter Property="Padding" Value="16,0,0,0"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+                        <Border Background="{TemplateBinding Background}" CornerRadius="8" Margin="8,2" Padding="{TemplateBinding Padding}">
+                            <ContentPresenter VerticalAlignment="Center"/>
+                        </Border>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+            <Style.Triggers>
+                <Trigger Property="IsMouseOver" Value="True">
+                    <Setter Property="Background" Value="#333350"/>
+                    <Setter Property="Foreground" Value="{StaticResource TextPrimary}"/>
+                </Trigger>
+            </Style.Triggers>
+        </Style>
+
+        <Style x:Key="MenuButtonActive" TargetType="Button" BasedOn="{StaticResource MenuButton}">
+            <Setter Property="Background" Value="#FF6B3520"/>
+            <Setter Property="Foreground" Value="{StaticResource AccentBrush}"/>
+            <Setter Property="FontWeight" Value="SemiBold"/>
+        </Style>
+
+        <Style x:Key="PrimaryButton" TargetType="Button">
+            <Setter Property="Background" Value="{StaticResource AccentBrush}"/>
+            <Setter Property="Foreground" Value="White"/>
+            <Setter Property="Height" Value="34"/>
+            <Setter Property="Padding" Value="16,0"/>
+            <Setter Property="Cursor" Value="Hand"/>
+            <Setter Property="FontSize" Value="12"/>
+            <Setter Property="FontWeight" Value="SemiBold"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+                        <Border Background="{TemplateBinding Background}" CornerRadius="6" Padding="{TemplateBinding Padding}">
+                            <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                        </Border>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+        <Style x:Key="DangerButton" TargetType="Button" BasedOn="{StaticResource PrimaryButton}">
+            <Setter Property="Background" Value="#E74C3C"/>
+        </Style>
+
+        <Style x:Key="DarkTextBox" TargetType="TextBox">
+            <Setter Property="Background" Value="{StaticResource InputBg}"/>
+            <Setter Property="Foreground" Value="{StaticResource TextPrimary}"/>
+            <Setter Property="BorderBrush" Value="{StaticResource BorderColor}"/>
+            <Setter Property="BorderThickness" Value="1"/>
+            <Setter Property="Padding" Value="10,8"/>
+            <Setter Property="FontSize" Value="12"/>
+            <Setter Property="CaretBrush" Value="White"/>
+        </Style>
+
+        <Style x:Key="DarkComboBox" TargetType="ComboBox">
+            <Setter Property="Background" Value="#1A1A2E"/>
+            <Setter Property="Foreground" Value="#CDD6F4"/>
+            <Setter Property="BorderBrush" Value="{StaticResource BorderColor}"/>
+            <Setter Property="BorderThickness" Value="1"/>
+            <Setter Property="Padding" Value="10,6"/>
+            <Setter Property="FontSize" Value="12"/>
+            <Setter Property="Height" Value="34"/>
+        </Style>
+
+        <Style x:Key="SectionTitle" TargetType="TextBlock">
+            <Setter Property="Foreground" Value="{StaticResource TextPrimary}"/>
+            <Setter Property="FontSize" Value="18"/>
+            <Setter Property="FontWeight" Value="Bold"/>
+            <Setter Property="Margin" Value="0,0,0,15"/>
+        </Style>
+
+        <Style x:Key="CardLabel" TargetType="TextBlock">
+            <Setter Property="Foreground" Value="{StaticResource TextSecondary}"/>
+            <Setter Property="FontSize" Value="12"/>
+            <Setter Property="Margin" Value="0,10,0,4"/>
+        </Style>
+
+        <Style x:Key="ToggleSwitch" TargetType="CheckBox">
+            <Setter Property="Cursor" Value="Hand"/>
+            <Setter Property="Foreground" Value="{StaticResource TextPrimary}"/>
+            <Setter Property="FontSize" Value="13"/>
+            <Setter Property="Margin" Value="0,4"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="CheckBox">
+                        <StackPanel Orientation="Horizontal">
+                            <Border x:Name="SwitchBg" Width="44" Height="22" CornerRadius="11" Background="#555" Margin="0,0,8,0">
+                                <Border x:Name="SwitchKnob" Width="18" Height="18" CornerRadius="9" Background="White" HorizontalAlignment="Left" Margin="2,0,0,0">
+                                    <Border.RenderTransform><TranslateTransform X="0"/></Border.RenderTransform>
+                                </Border>
+                            </Border>
+                            <ContentPresenter VerticalAlignment="Center"/>
+                        </StackPanel>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsChecked" Value="True">
+                                <Setter TargetName="SwitchBg" Property="Background" Value="{StaticResource AccentBrush}"/>
+                                <Setter TargetName="SwitchKnob" Property="RenderTransform"><Setter.Value><TranslateTransform X="22"/></Setter.Value></Setter>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+    </Window.Resources>
+
+    <Border CornerRadius="10" Background="{StaticResource MainBg}">
+        <Grid>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="200"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+            <Border Grid.Column="0" Background="{StaticResource SidebarBg}" CornerRadius="10,0,0,10">
+                <Grid>
+                    <Grid.RowDefinitions><RowDefinition Height="70"/><RowDefinition Height="*"/></Grid.RowDefinitions>
+                    <StackPanel Grid.Row="0" VerticalAlignment="Center" HorizontalAlignment="Center">
+                        <TextBlock Text="SmoothAutoRun" FontSize="15" FontWeight="Bold" Foreground="{StaticResource AccentBrush}" HorizontalAlignment="Center"/>
+                        <TextBlock Text="Утилита" FontSize="11" Foreground="{StaticResource TextSecondary}" HorizontalAlignment="Center" Margin="0,2,0,0"/>
+                    </StackPanel>
+                    <StackPanel Grid.Row="1" VerticalAlignment="Top" Margin="0,10,0,0">
+                        <Button x:Name="BtnAutoRun" Content="Автозагрузка" Click="MenuButton_Click"/>
+                        <Button x:Name="BtnFirewall" Content="Брандмауэр" Click="MenuButton_Click"/>
+                        <Button x:Name="BtnOverlay" Content="Оверлей" Click="MenuButton_Click"/>
+                        <Button x:Name="BtnVolume" Content="Звук" Click="MenuButton_Click"/>
+                        <Button x:Name="BtnDisks" Content="Диски" Click="MenuButton_Click"/>
+                        <Button x:Name="BtnSettings" Content="Настройки" Click="MenuButton_Click"/>
+                    </StackPanel>
+                </Grid>
+            </Border>
+            <Grid Grid.Column="1">
+                <Grid.RowDefinitions><RowDefinition Height="36"/><RowDefinition Height="*"/></Grid.RowDefinitions>
+                <Border Grid.Row="0" Background="{StaticResource SidebarBg}" CornerRadius="0,10,0,0" MouseDown="Window_MouseDown">
+                    <Grid>
+                        <TextBlock x:Name="TxtTabTitle" Text="Автозагрузка" VerticalAlignment="Center" Margin="16,0,0,0" Foreground="{StaticResource TextPrimary}" FontSize="12"/>
+                        <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
+                            <Button Content="─" Width="36" Height="36" Click="Minimize_Click" Background="Transparent" Foreground="{StaticResource TextSecondary}" BorderThickness="0" Cursor="Hand" FontSize="14"/>
+                            <Button Content="✕" Width="36" Height="36" Click="Close_Click" Background="Transparent" Foreground="{StaticResource TextSecondary}" BorderThickness="0" Cursor="Hand" FontSize="12"/>
+                        </StackPanel>
+                    </Grid>
+                </Border>
+                <ScrollViewer Grid.Row="1" VerticalScrollBarVisibility="Auto">
+                    <Grid Margin="24">
+                        <!-- Автозагрузка, Брандмауэр, Звук, Диски, Настройки — без изменений -->
+                        <StackPanel x:Name="TabAutoRun" Visibility="Visible">
+                            <TextBlock Text="Менеджер автозагрузки" Style="{StaticResource SectionTitle}"/>
+                            <Grid Margin="0,0,0,10"><Grid.ColumnDefinitions><ColumnDefinition Width="*"/><ColumnDefinition Width="Auto"/></Grid.ColumnDefinitions>
+                                <Grid><TextBox x:Name="TxtAutoRunSearch" Style="{StaticResource DarkTextBox}" TextChanged="AutoRunSearch_Changed"/><TextBlock Text="Поиск..." Foreground="#555" VerticalAlignment="Center" Margin="12,0,0,0" IsHitTestVisible="False" x:Name="TxtSearchWatermark"/></Grid>
+                                <Button Grid.Column="1" Content="Обновить" Style="{StaticResource PrimaryButton}" Width="90" Click="AutoRunRefresh_Click" Margin="10,0,0,0"/>
+                            </Grid>
+                            <TreeView x:Name="TreeAutoRun" Height="400" Background="{StaticResource CardBg}" Foreground="{StaticResource TextPrimary}" BorderThickness="0"/>
+                            <StackPanel Orientation="Horizontal" Margin="0,10,0,0">
+                                <Button Content="Добавить" Style="{StaticResource PrimaryButton}" Width="90" Click="AutoRunAdd_Click" Margin="0,0,8,0"/>
+                                <Button Content="Импорт" Style="{StaticResource PrimaryButton}" Width="90" Click="AutoRunImport_Click"/>
+                            </StackPanel>
+                        </StackPanel>
+
+                        <!-- ОВЕРЛЕЙ (исправлен) -->
+                        <StackPanel x:Name="TabOverlay" Visibility="Collapsed">
+                            <TextBlock Text="Оверлей" Style="{StaticResource SectionTitle}"/>
+                            <Border Background="{StaticResource CardBg}" CornerRadius="8" Padding="16" Margin="0,0,0,12">
+                                <StackPanel>
+                                    <StackPanel Orientation="Horizontal" Margin="0,0,0,12">
+                                        <Button x:Name="BtnOverlayStart" Content="Запустить" Style="{StaticResource PrimaryButton}" Width="110" Click="OverlayStart_Click" Margin="0,0,10,0"/>
+                                        <Button x:Name="BtnOverlayStop" Content="Остановить" Style="{StaticResource DangerButton}" Width="110" Click="OverlayStop_Click"/>
+                                    </StackPanel>
+                                    <CheckBox x:Name="ChkShowFps" Content="Показывать FPS" Style="{StaticResource ToggleSwitch}" IsChecked="True"/>
+                                    <CheckBox x:Name="ChkShowCpu" Content="Показывать загрузку ЦП" Style="{StaticResource ToggleSwitch}"/>
+                                    <CheckBox x:Name="ChkShowGpu" Content="Показывать загрузку ГП" Style="{StaticResource ToggleSwitch}"/>
+                                    <TextBlock Text="Позиция" Style="{StaticResource CardLabel}"/>
+                                    <ComboBox x:Name="CmbOverlayPosition" Width="200" Style="{StaticResource DarkComboBox}">
+                                        <ComboBoxItem Content="Верхний левый" Foreground="#CDD6F4" Background="#1A1A2E"/>
+                                        <ComboBoxItem Content="Верхний правый" IsSelected="True" Foreground="#CDD6F4" Background="#1A1A2E"/>
+                                        <ComboBoxItem Content="Нижний левый" Foreground="#CDD6F4" Background="#1A1A2E"/>
+                                        <ComboBoxItem Content="Нижний правый" Foreground="#CDD6F4" Background="#1A1A2E"/>
+                                    </ComboBox>
+                                    <Grid Margin="0,12,0,0"><Grid.ColumnDefinitions><ColumnDefinition Width="Auto"/><ColumnDefinition Width="Auto"/><ColumnDefinition Width="Auto"/></Grid.ColumnDefinitions>
+                                        <StackPanel Grid.Column="0" Margin="0,0,20,0"><TextBlock Text="Цвет текста" Style="{StaticResource CardLabel}"/><Button x:Name="BtnOverlayTextColor" Content="Выбрать" Width="80" Height="30" Click="ChooseOverlayTextColor_Click" Background="#00FF00" Foreground="White" FontSize="11"/></StackPanel>
+                                        <StackPanel Grid.Column="1" Margin="0,0,20,0"><TextBlock Text="Цвет фона" Style="{StaticResource CardLabel}"/>
+                                            <StackPanel Orientation="Horizontal">
+                                                <Button x:Name="BtnOverlayBgColor" Content="Выбрать" Width="60" Height="30" Click="ChooseOverlayBgColor_Click" Background="#000000" Foreground="White" FontSize="11" Margin="0,0,4,0"/>
+                                                <Button Content="Без фона" Width="60" Height="30" Click="ClearOverlayBg_Click" Background="#555" Foreground="White" FontSize="10"/>
+                                            </StackPanel>
+                                        </StackPanel>
+                                        <StackPanel Grid.Column="2"><TextBlock Text="Размер шрифта" Style="{StaticResource CardLabel}"/><ComboBox x:Name="CmbOverlayFontSize" Width="80" Style="{StaticResource DarkComboBox}">
+                                            <ComboBoxItem Content="10" Foreground="#CDD6F4" Background="#1A1A2E"/><ComboBoxItem Content="12" Foreground="#CDD6F4" Background="#1A1A2E"/>
+                                            <ComboBoxItem Content="14" IsSelected="True" Foreground="#CDD6F4" Background="#1A1A2E"/><ComboBoxItem Content="18" Foreground="#CDD6F4" Background="#1A1A2E"/><ComboBoxItem Content="24" Foreground="#CDD6F4" Background="#1A1A2E"/>
+                                        </ComboBox></StackPanel>
+                                    </Grid>
+                                    <TextBlock Text="Горячая клавиша" Style="{StaticResource CardLabel}"/>
+                                    <TextBox x:Name="TxtOverlayHotkey" Text="F9" Width="80" Style="{StaticResource DarkTextBox}"/>
+                                    <CheckBox x:Name="ChkOverlayVanguard" Content="Отключать для Vanguard (Valorant)" Style="{StaticResource ToggleSwitch}" IsChecked="True" Margin="0,12,0,0"/>
+                                </StackPanel>
+                            </Border>
+                            <Button Content="Сбросить настройки" Style="{StaticResource PrimaryButton}" Width="180" Click="ResetOverlay_Click"/>
+                        </StackPanel>
+
+                        <StackPanel x:Name="TabFirewall" Visibility="Collapsed">
+                            <TextBlock Text="Брандмауэр" Style="{StaticResource SectionTitle}"/>
+                            <Border Background="{StaticResource CardBg}" CornerRadius="8" Padding="16" Margin="0,0,0,12">
+                                <StackPanel><TextBlock Text="Управление интернетом" FontSize="14" FontWeight="Bold" Foreground="{StaticResource TextPrimary}" Margin="0,0,0,10"/>
+                                    <StackPanel Orientation="Horizontal">
+                                        <Button x:Name="BtnInternetOff" Content="Отключить интернет" Style="{StaticResource DangerButton}" Width="170" Click="InternetToggle_Click" Margin="0,0,10,0"/>
+                                        <Button x:Name="BtnInternetOn" Content="Включить интернет" Style="{StaticResource PrimaryButton}" Width="170" Click="InternetToggle_Click"/>
+                                    </StackPanel>
+                                </StackPanel>
+                            </Border>
+                            <Border Background="{StaticResource CardBg}" CornerRadius="8" Padding="16" Margin="0,0,0,12">
+                                <StackPanel><TextBlock Text="Заблокировать приложение" FontSize="14" FontWeight="Bold" Foreground="{StaticResource TextPrimary}" Margin="0,0,0,10"/>
+                                    <StackPanel Orientation="Horizontal">
+                                        <TextBox x:Name="TxtBlockAppPath" Style="{StaticResource DarkTextBox}" Width="280"/>
+                                        <Button Content="Обзор" Style="{StaticResource PrimaryButton}" Width="70" Click="BrowseApp_Click" Margin="8,0"/>
+                                        <Button Content="Блок" Style="{StaticResource DangerButton}" Width="60" Click="BlockApp_Click"/>
+                                    </StackPanel>
+                                </StackPanel>
+                            </Border>
+                            <ListBox x:Name="LstFirewallRules" Height="200" Background="{StaticResource CardBg}" Foreground="{StaticResource TextPrimary}" BorderThickness="0">
+                                <ListBox.ItemTemplate><DataTemplate><Border Padding="10,8" BorderBrush="#333" BorderThickness="0,0,0,1"><Grid><Grid.ColumnDefinitions><ColumnDefinition Width="*"/><ColumnDefinition Width="Auto"/></Grid.ColumnDefinitions><StackPanel><TextBlock Text="{Binding Name}" FontWeight="Bold" FontSize="12"/><TextBlock Text="{Binding ExePath}" FontSize="10" Foreground="#666" TextTrimming="CharacterEllipsis" MaxWidth="380"/></StackPanel><Button Grid.Column="1" Content="Разблокировать" Style="{StaticResource PrimaryButton}" Height="26" Width="110" FontSize="11" Click="UnblockApp_Click" Tag="{Binding}"/></Grid></Border></DataTemplate></ListBox.ItemTemplate>
+                            </ListBox>
+                        </StackPanel>
+                        <StackPanel x:Name="TabVolume" Visibility="Collapsed">
+                            <TextBlock Text="Громкость на панели задач" Style="{StaticResource SectionTitle}"/>
+                            <Border Background="{StaticResource CardBg}" CornerRadius="8" Padding="16"><StackPanel><CheckBox x:Name="ChkVolumeEnabled" Content="Включить регулировку громкости колёсиком на панели задач" Style="{StaticResource ToggleSwitch}" IsChecked="False" Checked="VolumeSetting_Changed" Unchecked="VolumeSetting_Changed"/><TextBlock Text="Наведите курсор на панель задач и крутите колёсико мыши" Foreground="{StaticResource TextSecondary}" FontSize="11" Margin="0,6,0,0"/></StackPanel></Border>
+                        </StackPanel>
+                        <StackPanel x:Name="TabDisks" Visibility="Collapsed">
+                            <TextBlock Text="Состояние дисков" Style="{StaticResource SectionTitle}"/>
+                            <Button x:Name="BtnScanDisks" Content="Сканировать диски" Style="{StaticResource PrimaryButton}" Width="180" Click="ScanDisks_Click" Margin="0,0,0,12"/>
+                            <ListBox x:Name="LstDisks" Height="400" Background="{StaticResource CardBg}" Foreground="{StaticResource TextPrimary}" BorderThickness="0">
+                                <ListBox.ItemTemplate><DataTemplate><Border Padding="12,10" BorderBrush="#333" BorderThickness="0,0,0,1"><StackPanel><TextBlock FontWeight="Bold" FontSize="13"><Run Text="{Binding Model}"/><Run Text=" ("/><Run Text="{Binding Type}"/><Run Text=")"/></TextBlock><TextBlock FontSize="11" Foreground="{StaticResource TextSecondary}" Margin="0,2,0,0"><Run Text="Буква: "/><Run Text="{Binding DriveLetter}" FontWeight="Bold"/><Run Text=" | Размер: "/><Run Text="{Binding Size}" FontWeight="Bold"/></TextBlock><TextBlock FontSize="11" Margin="0,2,0,0"><Run Text="Здоровье: "/><Run Text="{Binding HealthStatus}" FontWeight="Bold" Foreground="{Binding HealthColor}"/><Run Text=" | Температура: "/><Run Text="{Binding Temperature}" FontWeight="Bold"/></TextBlock><TextBlock FontSize="10" Foreground="#555" Margin="0,2,0,0"><Run Text="Включений: "/><Run Text="{Binding PowerOnCount}"/><Run Text=" | Часов работы: "/><Run Text="{Binding PowerOnHours}"/></TextBlock><TextBlock Text="{Binding SerialNumber}" FontSize="10" Foreground="#555" Margin="0,2,0,0"/></StackPanel></Border></DataTemplate></ListBox.ItemTemplate>
+                            </ListBox>
+                        </StackPanel>
+                        <StackPanel x:Name="TabSettings" Visibility="Collapsed">
+                            <TextBlock Text="Общие настройки" Style="{StaticResource SectionTitle}"/>
+                            <Border Background="{StaticResource CardBg}" CornerRadius="8" Padding="16" Margin="0,0,0,12"><StackPanel><CheckBox x:Name="ChkStartWithWindows" Content="Запускать при старте Windows" Style="{StaticResource ToggleSwitch}" IsChecked="True"/><CheckBox x:Name="ChkStartMinimized" Content="Сворачивать в трей при старте" Style="{StaticResource ToggleSwitch}" IsChecked="False"/><CheckBox x:Name="ChkDarkMode" Content="Тёмная тема" Style="{StaticResource ToggleSwitch}" IsChecked="True" Checked="Settings_Changed" Unchecked="Settings_Changed"/></StackPanel></Border>
+                            <Border Background="{StaticResource CardBg}" CornerRadius="8" Padding="16" Margin="0,0,0,12"><StackPanel><TextBlock Text="Процессы античитов" FontSize="13" FontWeight="Bold" Foreground="{StaticResource TextPrimary}" Margin="0,0,0,8"/><TextBox x:Name="TxtAnticheatList" Height="120" Style="{StaticResource DarkTextBox}" AcceptsReturn="True" TextWrapping="Wrap" FontFamily="Consolas" FontSize="11"/></StackPanel></Border>
+                            <Button Content="Сохранить настройки" Style="{StaticResource PrimaryButton}" Width="180" Click="SaveSettings_Click"/>
+                        </StackPanel>
+                    </Grid>
+                </ScrollViewer>
+            </Grid>
+        </Grid>
+    </Border>
+</Window>
