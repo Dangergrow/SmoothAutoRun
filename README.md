@@ -1,32 +1,112 @@
 # SmoothAutoRun
 
-Windows 10/11 system utility combining SmoothScroll, AutoRun manager, Firewall control, FPS overlay, and mouse gestures.
+**Системная утилита для Windows 10/11**
 
-## Features
+Полнофункциональный инструмент для управления автозагрузкой, брандмауэром, мониторинга системы (FPS/CPU/GPU), регулировки громкости и диагностики дисков.
 
-- **SmoothScroll** - Smooth mouse wheel scrolling with easing functions and per-app profiles
-- **AutoRun** - Manage startup entries from Registry, Startup folders, Task Scheduler, and Services
-- **Firewall** - Block internet for specific apps or toggle all internet
-- **Overlay** - FPS/CPU/GPU overlay for games (auto-disables for Vanguard)
-- **Gestures** - Mouse gesture recognition (hold right mouse button + move)
+---
 
-## Installation
+## 🚀 Возможности
 
-1. Download `SmoothAutoRun.zip` from [Releases](https://github.com)
-2. Extract to any folder
-3. Run `SmoothAutoRun.exe` (requires Administrator rights)
-4. Confirm UAC prompt
+### 📋 Автозагрузка
+- Просмотр всех программ в автозагрузке из:
+  - Реестра Windows (HKCU и HKLM)
+  - Папок автозагрузки
+  - Планировщика задач
+  - Служб Windows
+- Включение и отключение автозагрузки
+- Удаление записей
+- Экспорт и импорт записей
+- Поиск и фильтрация
+- Группировка по категориям
 
-## System Requirements
+### 🛡 Брандмауэр
+- Полное отключение и включение интернета
+- Блокировка отдельных приложений от доступа в сеть
+- Управление правилами брандмауэра Windows
 
-- Windows 10/11 64-bit
-- .NET 8 Runtime (included in self-contained build)
-- Administrator privileges
+### 📊 Оверлей
+- Отображение FPS в реальном времени (через PresentMon от Intel)
+- Загрузка процессора (CPU) в процентах
+- Загрузка видеокарты (GPU) в процентах
+- Настраиваемая позиция на экране
+- Выбор цвета текста и фона (или без фона)
+- Настраиваемый размер шрифта
+- Горячая клавиша для быстрого включения/выключения
+- Автоматическое отключение при запуске Valorant (Vanguard)
 
-## Build from Source
+### 🔊 Звук
+- Регулировка громкости колёсиком мыши на панели задач
+- Быстрое включение и отключение
+
+### 💿 Диски
+- Сканирование всех физических дисков
+- Отображение модели, типа (SSD/HDD/NVMe), размера
+- Состояние здоровья диска в процентах
+- Температура диска
+- Количество включений и часов работы
+- Серийный номер
+
+### ⚙ Настройки
+- Автозапуск при старте Windows
+- Сворачивание в системный трей
+- Тёмная тема оформления
+- Настройка списка античитов для автоотключения
+
+---
+
+## 📥 Установка
+
+### Вариант 1: Портативная версия
+1. Скачай `SmoothAutoRun.exe` и `PresentMon.exe`
+2. Помести оба файла в одну папку
+3. Запусти `SmoothAutoRun.exe` от имени администратора
+
+### Вариант 2: Установщик
+1. Запусти `SmoothAutoRun_Setup.exe`
+2. Выбери папку для установки
+3. Отметь нужные ярлыки
+4. Нажми «Установить»
+
+---
+
+## 📋 Системные требования
+
+- **ОС:** Windows 10/11 (64-бит)
+- **Права:** Администратор (для firewall и авто-запуска)
+- **Для FPS:** [PresentMon от Intel](https://github.com/GameTechDev/PresentMon) (устанавливается отдельно)
+
+---
+
+## 🎮 Совместимость с античитами
+
+| Игра / Античит | Оверлей | Брандмауэр | Автозагрузка |
+|----------------|---------|------------|--------------|
+| CS2 (VAC) | ✅ | ✅ | ✅ |
+| Dota 2 (VAC) | ✅ | ✅ | ✅ |
+| Apex Legends (EAC) | ✅ | ✅ | ✅ |
+| Fortnite (EAC) | ✅ | ✅ | ✅ |
+| PUBG (BattlEye) | ✅ | ✅ | ✅ |
+| Valorant (Vanguard) | ⚠️ Автоотключение | ✅ | ✅ |
+
+> Оверлей автоматически отключается при обнаружении Vanguard, чтобы избежать конфликтов.
+
+---
+
+## 🔧 Сборка из исходников
 
 ```bash
-git clone https://github.com/yourrepo/SmoothAutoRun
+git clone https://github.com/your-repo/SmoothAutoRun.git
 cd SmoothAutoRun
 dotnet restore
 dotnet build -c Release
+Создание одного .exe файла:
+bash
+dotnet publish -c Release -r win-x64 --self-contained true -p:PublishSingleFile=true -o ./publish
+📝 Лицензия
+MIT License — делай что хочешь, только сохраняй упоминание автора.
+
+🐛 Нашли баг?
+Создайте issue на GitHub или напишите в лс.
+
+Сделано с ❤️
